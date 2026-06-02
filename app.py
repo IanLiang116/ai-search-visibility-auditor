@@ -915,6 +915,16 @@ def render_summary_cards(score_display, status, counts):
     )
 
 
+def render_feedback_cta():
+    """Render a feedback call-to-action without storing data locally."""
+    st.header("Help improve this tool")
+    st.write(
+        "If this audit was useful, confusing, or wrong, please leave quick feedback. "
+        "It helps improve the scoring model and report quality."
+    )
+    st.link_button("Give Feedback", "https://tally.so/r/EkMEgo")
+
+
 def render_homepage():
     """Render the public-facing single-page MVP experience."""
     st.title("AI Search Visibility Auditor")
@@ -990,15 +1000,7 @@ def render_homepage():
 
     st.divider()
 
-    st.header("Feedback")
-    st.write("Was this report useful?")
-    useful_col, not_useful_col = st.columns(2)
-    with useful_col:
-        if st.button("\U0001F44D Useful"):
-            st.success("Thanks for the feedback.")
-    with not_useful_col:
-        if st.button("\U0001F44E Not Useful"):
-            st.info("Thanks. This feedback is not stored.")
+    render_feedback_cta()
 
     st.divider()
     st.caption(
@@ -1075,6 +1077,8 @@ def render_audit_report(url_input):
             for item in audit_results:
                 render_result(item)
                 st.divider()
+
+            render_feedback_cta()
 
 
 st.set_page_config(page_title="AI Search Visibility Auditor")

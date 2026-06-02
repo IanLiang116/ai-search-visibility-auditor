@@ -160,6 +160,14 @@ This is intentionally simple. The goal is not perfect SEO scoring. The goal is t
 
 This lets you send a lightweight audit without building a full SaaS dashboard.
 
+## Feedback Form
+
+The app includes a `Give Feedback` link to a Tally form.
+
+Use it to collect quick feedback when a report is useful, confusing, or wrong. This feedback helps improve the scoring model and report quality during market validation.
+
+The app does not store feedback locally and does not use a database.
+
 ## Why Copyable Report Matters For Market Validation
 
 The fastest way to validate this product is not to build accounts, billing, or automation.
