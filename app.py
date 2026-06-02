@@ -387,8 +387,8 @@ def build_ai_crawler_results(robots_response):
                 make_result(
                     crawler,
                     False,
-                    f"{crawler} is blocked by robots.txt.",
-                    f"Review robots.txt and allow {crawler} if you want this AI crawler to access public pages.",
+                    f"{crawler} appears restricted by robots.txt.",
+                    f"Review {crawler} access policy. This may be intentional, but it can reduce direct AI access to public content.",
                     reason,
                 )
             )
@@ -397,8 +397,8 @@ def build_ai_crawler_results(robots_response):
                 make_result(
                     crawler,
                     True,
-                    "No crawler block detected.",
-                    "Keep robots.txt aligned with your AI search visibility strategy.",
+                    "This crawler appears allowed by robots.txt and may support discoverability.",
+                    "Keep robots.txt aligned with your AI access policy and content strategy.",
                     reason,
                 )
             )
@@ -686,7 +686,7 @@ def get_fix_message(result):
     name = result["name"]
 
     if name in AI_CRAWLERS:
-        return f"{name} is blocked by robots.txt"
+        return f"Review {name} access policy"
 
     if name == "robots.txt":
         return "No robots.txt found"
@@ -730,6 +730,7 @@ def build_summary(base_url, score, status, results, top_fixes):
 
     sentences = [
         f"{base_url} is currently classified as '{status}' with a score of {score_display}.",
+        "This is a technical readiness assessment for AI discovery and understanding, not a prediction of AI recommendations.",
         f"Passed Checks: {counts['passed']}. Failed Checks: {counts['failed']}. Unknown Checks: {counts['unknown']}.",
     ]
 
@@ -746,7 +747,7 @@ def build_summary(base_url, score, status, results, top_fixes):
         sentences.append(f"The highest-priority fixes are: {fix_names}.")
 
     sentences.append(
-        "These checks do not guarantee AI search visibility, but they reduce basic crawler and machine-understanding problems."
+        "A high score means we did not find obvious technical barriers that prevent AI systems from accessing, understanding, or referencing your public website."
     )
     return " ".join(sentences)
 
@@ -787,16 +788,16 @@ def build_crawler_summary(crawler_readiness):
     unknown = [item["name"] for item in crawler_readiness if item["status"] == "Unknown"]
 
     if blocked and allowed:
-        first_sentence = "Most major AI crawlers can access this website." if len(allowed) > len(blocked) else "Some major AI crawlers may be blocked from this website."
-        second_sentence = "However, " + ", ".join(blocked) + " appear to be blocked."
+        first_sentence = "Most major AI-related crawlers appear allowed by robots.txt." if len(allowed) > len(blocked) else "Some major AI-related crawlers appear restricted by robots.txt."
+        second_sentence = "Review access policy for: " + ", ".join(blocked) + ". Restrictions may be intentional, but can reduce direct AI access to public content."
     elif blocked:
-        first_sentence = "Major AI crawlers appear to be blocked from this website."
-        second_sentence = "Blocked crawlers: " + ", ".join(blocked) + "."
+        first_sentence = "Major AI-related crawlers appear restricted by robots.txt."
+        second_sentence = "Review access policy for: " + ", ".join(blocked) + ". Restrictions may be intentional for content control, privacy, legal, security, or business reasons."
     elif allowed:
-        first_sentence = "Major AI crawlers appear to be allowed by robots.txt."
-        second_sentence = "No crawler-specific block was detected in the current robots.txt check."
+        first_sentence = "Major AI-related crawlers appear allowed by robots.txt."
+        second_sentence = "This may support discoverability, but it does not guarantee AI recommendations."
     else:
-        first_sentence = "AI crawler readiness could not be verified."
+        first_sentence = "AI access policy could not be verified."
         second_sentence = "robots.txt was unavailable or blocked during this audit."
 
     if unknown:
@@ -822,7 +823,7 @@ def build_copyable_report(base_url, score, status, results, crawler_readiness, t
         fixes_text = "No high-priority fixes found in the current basic checks."
 
     return (
-        "AI Search Visibility Audit\n"
+        "AI Visibility Readiness Audit\n"
         "\n"
         f"URL: {base_url}\n"
         f"Total Score: {score_display}\n"
@@ -830,9 +831,13 @@ def build_copyable_report(base_url, score, status, results, crawler_readiness, t
         f"Passed Checks: {counts['passed']}\n"
         f"Failed Checks: {counts['failed']}\n"
         f"Unknown Checks: {counts['unknown']}\n\n"
-        "AI Crawler Readiness\n"
+        "Disclaimer\n"
+        "This audit evaluates technical readiness.\n"
+        "It does not guarantee that ChatGPT, Claude, Perplexity, Google AI, or other AI systems will recommend a website.\n"
+        "Instead, it identifies technical barriers that may affect AI access, understanding, and reference readiness.\n\n"
+        "AI Access Policy\n"
         f"{crawler_text}\n\n"
-        "Top Fixes\n"
+        "Priority Recommendations\n"
         f"{fixes_text}\n\n"
         "Summary\n"
         f"{summary}"
@@ -1062,10 +1067,12 @@ def render_homepage():
     """Render the public-facing single-page MVP experience."""
     with st.container(border=True):
         st.caption("FREE AI VISIBILITY AUDIT")
-        st.title("AI Search Visibility Auditor")
+        st.title("AI Visibility Readiness Auditor")
         st.write(
-            "Find out whether your website is ready to be understood, crawled, "
-            "and referenced by AI systems."
+            "Check whether AI systems can access, understand, and reference your website."
+        )
+        st.write(
+            "This audit identifies technical barriers that may prevent AI systems from discovering or interpreting your public content."
         )
         st.write("Supports: **ChatGPT** | **Claude** | **Perplexity** | **Google AI**")
 
@@ -1150,7 +1157,7 @@ def render_homepage():
     render_section_intro(
         "About the score",
         "Weighted, practical, and careful with uncertainty",
-        "The score is based on AI crawler accessibility and technical visibility signals. Unknown checks are not treated as failures.",
+        "The score measures technical readiness for AI discovery and understanding. A high score does not guarantee AI recommendations. It means we did not find obvious technical barriers that prevent AI systems from accessing, understanding, or referencing your public website. Unknown checks are not treated as failures.",
     )
 
     st.divider()
@@ -1215,9 +1222,9 @@ def render_audit_report(url_input):
             st.write(summary)
 
             render_section_intro(
-                "Crawler readiness",
-                "AI Crawler Readiness",
-                "Whether major AI crawler user agents appear to be allowed, blocked, or unknown.",
+                "Access policy",
+                "AI Access Policy",
+                "This section shows whether major AI-related crawlers appear to be allowed, blocked, or unknown based on robots.txt. Blocked does not always mean wrong. Some websites intentionally restrict AI crawlers for content control, privacy, legal, security, or business reasons.",
             )
             crawler_columns = st.columns(3)
             for index, crawler in enumerate(crawler_readiness):
@@ -1228,9 +1235,9 @@ def render_audit_report(url_input):
             st.write(crawler_summary)
 
             render_section_intro(
-                "Fix priority",
-                "Top 3 Fixes",
-                "The highest-impact confirmed issues from this audit.",
+                "Recommendations",
+                "Priority Recommendations",
+                "The highest-impact recommendations from this audit. Some items may be technical issues; others may be intentional access policy choices.",
             )
             if top_fixes:
                 for index, fix in enumerate(top_fixes, start=1):
@@ -1260,7 +1267,7 @@ def render_audit_report(url_input):
             render_feedback_cta()
 
 
-st.set_page_config(page_title="AI Search Visibility Auditor")
+st.set_page_config(page_title="AI Visibility Readiness Auditor")
 
 inject_global_styles()
 url_input, run_audit = render_homepage()

@@ -1,8 +1,10 @@
-# AI Search Visibility Auditor V0.3
+# AI Visibility Readiness Auditor V0.3
 
 This is a tiny local MVP for understanding the product idea.
 
-It is not a full SaaS. It has no accounts, no payment system, no dashboard, and no database. A user enters a website URL, and the app checks six basic signals that can help search engines and AI systems understand the site.
+It is not a full SaaS. It has no accounts, no payment system, no dashboard, and no database. A user enters a website URL, and the app checks whether AI systems can access, understand, and reference the site's public content.
+
+A high score does not guarantee AI recommendations. It means the audit did not find obvious technical barriers that prevent AI systems from accessing, understanding, or referencing the public website.
 
 ## What V0.3 Adds
 
