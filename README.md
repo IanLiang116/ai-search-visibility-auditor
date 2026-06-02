@@ -19,6 +19,7 @@ New in V0.3:
 - Weighted scoring based on real-world testing across SaaS, AI, and developer-tool websites.
 - More specific Top Fixes, such as `GPTBot is blocked by robots.txt` or `No sitemap.xml found`.
 - A stronger copyable report that includes AI crawler readiness.
+- A cleaner single-page UI with a polished hero section, responsive cards, clearer audit summaries, and collapsible detailed checks.
 
 ## What V0.2 Added
 

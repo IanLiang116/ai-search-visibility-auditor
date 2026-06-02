@@ -843,17 +843,190 @@ def render_result(result):
     """Render a single check in Streamlit."""
     state = get_result_state(result)
 
-    if state == "Passed":
-        st.success(f"Passed: {result['name']}")
-    elif state == "Unknown":
-        st.info(f"Unknown: {result['name']}")
-    else:
-        st.warning(f"Needs Work: {result['name']}")
+    with st.expander(f"{result['name']} - {state}", expanded=False):
+        if state == "Passed":
+            st.success(f"Passed: {result['name']}")
+        elif state == "Unknown":
+            st.info(f"Unknown: {result['name']}")
+        else:
+            st.warning(f"Needs Work: {result['name']}")
 
-    st.write(f"**Status:** {state}")
-    st.write(f"**Reason:** {result['issue']}")
-    st.write(f"**Suggestion:** {result['suggestion']}")
-    st.caption(f"Evidence: {result['evidence']}")
+        st.write(f"**Status:** {state}")
+        st.write(f"**Reason:** {result['issue']}")
+        st.write(f"**Suggestion:** {result['suggestion']}")
+        st.caption(f"Evidence: {result['evidence']}")
+
+
+def inject_global_styles():
+    """Add presentation-only CSS for a more polished single-page app."""
+    st.markdown(
+        """
+        <style>
+            :root {
+                --card-bg: rgba(255, 255, 255, 0.045);
+                --card-border: rgba(255, 255, 255, 0.13);
+                --muted-text: rgba(255, 255, 255, 0.68);
+                --strong-text: rgba(255, 255, 255, 0.96);
+            }
+
+            .block-container {
+                max-width: 1120px;
+                padding-top: 2.5rem;
+                padding-bottom: 3rem;
+            }
+
+            .hero-card {
+                border: 1px solid var(--card-border);
+                border-radius: 16px;
+                padding: clamp(1.25rem, 4vw, 2.25rem);
+                background:
+                    radial-gradient(circle at top left, rgba(80, 128, 255, 0.18), transparent 34%),
+                    var(--card-bg);
+                margin-bottom: 1rem;
+            }
+
+            .eyebrow {
+                color: rgba(140, 170, 255, 0.95);
+                font-weight: 700;
+                font-size: 0.82rem;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                margin-bottom: 0.7rem;
+            }
+
+            .hero-title {
+                color: var(--strong-text);
+                font-weight: 800;
+                font-size: clamp(2rem, 5vw, 3.4rem);
+                line-height: 1.05;
+                margin: 0 0 0.8rem 0;
+            }
+
+            .hero-subtitle {
+                color: var(--muted-text);
+                font-size: clamp(1rem, 2vw, 1.2rem);
+                line-height: 1.6;
+                max-width: 760px;
+                margin-bottom: 1.1rem;
+            }
+
+            .support-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin: 0.7rem 0 0.25rem 0;
+            }
+
+            .pill {
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 999px;
+                color: rgba(255, 255, 255, 0.82);
+                background: rgba(255, 255, 255, 0.055);
+                padding: 0.34rem 0.7rem;
+                font-size: 0.86rem;
+            }
+
+            .section-kicker {
+                color: rgba(140, 170, 255, 0.92);
+                font-size: 0.78rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                margin-top: 0.2rem;
+            }
+
+            .section-title {
+                color: var(--strong-text);
+                font-size: clamp(1.35rem, 3vw, 1.9rem);
+                font-weight: 760;
+                margin: 0.1rem 0 0.35rem 0;
+            }
+
+            .section-copy {
+                color: var(--muted-text);
+                line-height: 1.55;
+                margin-bottom: 1rem;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 0.9rem;
+                margin: 1rem 0;
+            }
+
+            .info-card, .feedback-card {
+                border: 1px solid var(--card-border);
+                border-radius: 12px;
+                padding: 1rem;
+                background: var(--card-bg);
+                min-width: 0;
+            }
+
+            .info-card-title {
+                color: var(--strong-text);
+                font-weight: 740;
+                font-size: 1rem;
+                margin-bottom: 0.45rem;
+            }
+
+            .info-card-body {
+                color: var(--muted-text);
+                line-height: 1.52;
+                font-size: 0.94rem;
+            }
+
+            .example-value {
+                color: var(--strong-text);
+                font-size: clamp(1.35rem, 3vw, 2rem);
+                line-height: 1.15;
+                font-weight: 800;
+                overflow-wrap: anywhere;
+            }
+
+            .result-title {
+                color: var(--strong-text);
+                font-size: clamp(1.35rem, 3vw, 2rem);
+                font-weight: 760;
+                line-height: 1.2;
+                overflow-wrap: anywhere;
+                margin-top: 0.4rem;
+            }
+
+            div[data-testid="stTextInput"] input {
+                min-height: 3rem;
+            }
+
+            div[data-testid="stButton"] button,
+            div[data-testid="stLinkButton"] a {
+                border-radius: 8px;
+                min-height: 2.8rem;
+                font-weight: 700;
+            }
+
+            @media (max-width: 640px) {
+                .block-container {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    padding-top: 1.25rem;
+                }
+
+                .hero-card {
+                    padding: 1.1rem;
+                    border-radius: 12px;
+                }
+            }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_section_intro(kicker, title, copy):
+    """Render a consistent section heading."""
+    st.caption(kicker.upper())
+    st.subheader(title)
+    st.write(copy)
 
 
 def render_summary_cards(score_display, status, counts):
@@ -865,73 +1038,36 @@ def render_summary_cards(score_display, status, counts):
         ("Failed Checks", counts["failed"]),
         ("Unknown Checks", counts["unknown"]),
     ]
-    card_html = "".join(
-        f"""
-        <div class="summary-card">
-            <div class="summary-label">{label}</div>
-            <div class="summary-value">{value}</div>
-        </div>
-        """
-        for label, value in cards
-    )
-
-    st.markdown(
-        f"""
-        <style>
-            .summary-grid {{
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 0.75rem;
-                margin: 1rem 0 0.5rem 0;
-            }}
-            .summary-card {{
-                border: 1px solid rgba(255, 255, 255, 0.14);
-                border-radius: 8px;
-                padding: 0.9rem 1rem;
-                background: rgba(255, 255, 255, 0.04);
-                min-width: 0;
-            }}
-            .summary-label {{
-                font-size: 0.78rem;
-                line-height: 1.2;
-                color: rgba(255, 255, 255, 0.68);
-                margin-bottom: 0.45rem;
-            }}
-            .summary-value {{
-                font-size: clamp(1.05rem, 2vw, 1.55rem);
-                line-height: 1.18;
-                font-weight: 700;
-                color: rgba(255, 255, 255, 0.96);
-                white-space: normal;
-                overflow-wrap: anywhere;
-                word-break: normal;
-            }}
-        </style>
-        <div class="summary-grid">
-            {card_html}
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    card_columns = st.columns(5)
+    for column, (label, value) in zip(card_columns, cards):
+        with column:
+            with st.container(border=True):
+                st.caption(label)
+                st.markdown(f"### {value}")
 
 
 def render_feedback_cta():
     """Render a feedback call-to-action without storing data locally."""
-    st.header("Help improve this tool")
-    st.write(
-        "If this audit was useful, confusing, or wrong, please leave quick feedback. "
-        "It helps improve the scoring model and report quality."
-    )
-    st.link_button("Give Feedback", "https://tally.so/r/EkMEgo")
+    with st.container(border=True):
+        st.caption("FEEDBACK")
+        st.subheader("Help improve this tool")
+        st.write(
+            "If this audit was useful, confusing, or wrong, please leave quick feedback. "
+            "It helps improve the scoring model and report quality."
+        )
+        st.link_button("Give Feedback", "https://tally.so/r/EkMEgo")
 
 
 def render_homepage():
     """Render the public-facing single-page MVP experience."""
-    st.title("AI Search Visibility Auditor")
-    st.write(
-        "Find out whether your website is ready to be understood, crawled, and referenced by AI systems."
-    )
-    st.write("Supports: **ChatGPT** | **Claude** | **Perplexity** | **Google AI**")
+    with st.container(border=True):
+        st.caption("FREE AI VISIBILITY AUDIT")
+        st.title("AI Search Visibility Auditor")
+        st.write(
+            "Find out whether your website is ready to be understood, crawled, "
+            "and referenced by AI systems."
+        )
+        st.write("Supports: **ChatGPT** | **Claude** | **Perplexity** | **Google AI**")
 
     url_input = st.text_input("Enter website URL", placeholder="https://example.com")
     run_audit = st.button("Run Free Audit", type="primary")
@@ -943,42 +1079,59 @@ def render_homepage():
 
     st.divider()
 
-    st.header("How It Works")
+    render_section_intro(
+        "How it works",
+        "From URL to audit in one pass",
+        "Run a lightweight visibility check without accounts, installs, or setup.",
+    )
     step_1, step_2, step_3 = st.columns(3)
     with step_1:
-        st.subheader("Step 1")
-        st.write("Enter your website URL")
+        with st.container(border=True):
+            st.subheader("Step 1")
+            st.write("Enter your website URL.")
     with step_2:
-        st.subheader("Step 2")
-        st.write("We analyze AI crawler access and technical visibility signals")
+        with st.container(border=True):
+            st.subheader("Step 2")
+            st.write("We analyze AI crawler access and technical visibility signals.")
     with step_3:
-        st.subheader("Step 3")
-        st.write("Receive a visibility score and detailed audit")
+        with st.container(border=True):
+            st.subheader("Step 3")
+            st.write("Receive a visibility score and detailed audit.")
 
     st.divider()
 
-    st.header("What We Check")
+    render_section_intro(
+        "What we check",
+        "Crawler access plus technical visibility",
+        "The report combines AI crawler permissions with basic signals that help machines discover and understand a website.",
+    )
     crawler_col, technical_col = st.columns(2)
     with crawler_col:
-        st.subheader("AI Crawler Access")
-        st.write("- GPTBot")
-        st.write("- ClaudeBot")
-        st.write("- PerplexityBot")
-        st.write("- OAI-SearchBot")
-        st.write("- ChatGPT-User")
-        st.write("- Google-Extended")
+        with st.container(border=True):
+            st.subheader("AI Crawler Access")
+            st.write("- GPTBot")
+            st.write("- ClaudeBot")
+            st.write("- PerplexityBot")
+            st.write("- OAI-SearchBot")
+            st.write("- ChatGPT-User")
+            st.write("- Google-Extended")
     with technical_col:
-        st.subheader("Technical Visibility")
-        st.write("- robots.txt")
-        st.write("- sitemap.xml")
-        st.write("- title tag")
-        st.write("- meta description")
-        st.write("- schema markup")
-        st.write("- llms.txt")
+        with st.container(border=True):
+            st.subheader("Technical Visibility")
+            st.write("- robots.txt")
+            st.write("- sitemap.xml")
+            st.write("- title tag")
+            st.write("- meta description")
+            st.write("- schema markup")
+            st.write("- llms.txt")
 
     st.divider()
 
-    st.header("Example Results")
+    render_section_intro(
+        "Example results",
+        "What a report can look like",
+        "Static examples from real-world style test cases.",
+    )
     examples = [
         ("OpenAI", "85"),
         ("Vercel", "100"),
@@ -988,15 +1141,17 @@ def render_homepage():
     example_cols = st.columns(4)
     for column, (name, result) in zip(example_cols, examples):
         with column:
-            st.metric(name, result)
+            with st.container(border=True):
+                st.subheader(name)
+                st.markdown(f"### {result}")
 
     st.divider()
 
-    st.header("About The Score")
-    st.write(
-        "The score is based on AI crawler accessibility and technical visibility signals."
+    render_section_intro(
+        "About the score",
+        "Weighted, practical, and careful with uncertainty",
+        "The score is based on AI crawler accessibility and technical visibility signals. Unknown checks are not treated as failures.",
     )
-    st.write("Unknown checks are not treated as failures.")
 
     st.divider()
 
@@ -1052,35 +1207,60 @@ def render_audit_report(url_input):
             else:
                 st.info("Several basic visibility signals are missing. Start with robots.txt, sitemap.xml, and homepage metadata.")
 
-            st.subheader("Human-readable Summary")
+            render_section_intro(
+                "Summary",
+                "Human-readable Summary",
+                "A short interpretation of the current audit result.",
+            )
             st.write(summary)
 
-            st.subheader("AI Crawler Readiness")
-            for crawler in crawler_readiness:
-                st.write(f"**{crawler['name']}**: {crawler['status']}")
-            st.write("**Summary**")
+            render_section_intro(
+                "Crawler readiness",
+                "AI Crawler Readiness",
+                "Whether major AI crawler user agents appear to be allowed, blocked, or unknown.",
+            )
+            crawler_columns = st.columns(3)
+            for index, crawler in enumerate(crawler_readiness):
+                with crawler_columns[index % 3]:
+                    with st.container(border=True):
+                        st.subheader(crawler["name"])
+                        st.markdown(f"### {crawler['status']}")
             st.write(crawler_summary)
 
-            st.subheader("Top 3 Fixes")
+            render_section_intro(
+                "Fix priority",
+                "Top 3 Fixes",
+                "The highest-impact confirmed issues from this audit.",
+            )
             if top_fixes:
                 for index, fix in enumerate(top_fixes, start=1):
-                    st.write(f"Priority {index}: **{fix['message']}**")
-                    st.caption(fix["suggestion"])
+                    with st.container(border=True):
+                        st.write(f"**Priority {index}: {fix['message']}**")
+                        st.caption(fix["suggestion"])
             else:
                 st.write("No high-priority fixes found in the current basic checks.")
 
-            st.subheader("Copyable Report")
+            render_section_intro(
+                "Share",
+                "Copyable Report",
+                "Plain-text output for sending to a founder, developer, or marketer.",
+            )
             st.text_area("Report", copyable_report, height=260)
 
             st.divider()
 
+            render_section_intro(
+                "Details",
+                "Detailed Checks",
+                "Open each item to see status, reason, suggestion, and evidence.",
+            )
             for item in audit_results:
                 render_result(item)
-                st.divider()
 
             render_feedback_cta()
 
 
 st.set_page_config(page_title="AI Search Visibility Auditor")
 
+inject_global_styles()
 url_input, run_audit = render_homepage()
