@@ -1,6 +1,6 @@
 # $1 AI Micro-SaaS Idea Pack
 
-A tiny static landing page built to test one goal: make a first $1 sale.
+A tiny static landing page for selling a $1 AI micro-SaaS idea pack.
 
 ## Product
 

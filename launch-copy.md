@@ -4,8 +4,6 @@ Use this after the payment link is active.
 
 ## Threads / X Post
 
-I am testing a tiny $1 product today.
-
 If you are a solo builder stuck choosing what to build, I made a compact AI micro-SaaS idea pack:
 
 - 10 tiny ideas
@@ -13,13 +11,11 @@ If you are a solo builder stuck choosing what to build, I made a compact AI micr
 - 48-hour build checklist
 - 3 launch posts
 
-$1 honor-system for the first version. You can download it immediately.
+$1 honor-system. You can download it immediately.
 
 {PAYMENT_OR_LANDING_PAGE_URL}
 
 ## Direct Message
-
-Hey, quick experiment:
 
 I made a $1 AI micro-SaaS idea pack for solo builders who are stuck picking what to build.
 
@@ -30,8 +26,6 @@ If you want it, here is the link:
 {PAYMENT_OR_LANDING_PAGE_URL}
 
 ## Community Post
-
-I am doing a small public test today.
 
 I built a $1 AI Micro-SaaS Idea Pack for solo builders who want a tiny product idea they can start quickly.
 
