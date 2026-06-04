@@ -43,7 +43,7 @@ function activatePaymentLinks() {
     });
 
     if (paymentNote) {
-      paymentNote.textContent = "After payment, send the screenshot or transaction note so the pack can be delivered.";
+      paymentNote.textContent = "$1 suggested price. Immediate download is available so buyers do not need to wait for manual delivery.";
     }
   };
   probe.src = PAYMENT_QR_IMAGE;

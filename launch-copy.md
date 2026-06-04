@@ -13,7 +13,7 @@ If you are a solo builder stuck choosing what to build, I made a compact AI micr
 - 48-hour build checklist
 - 3 launch posts
 
-$1 for the first version.
+$1 honor-system for the first version. You can download it immediately.
 
 {PAYMENT_OR_LANDING_PAGE_URL}
 
@@ -44,6 +44,8 @@ The pack includes:
 - launch copy
 
 The goal is not to be a huge course. It is a tiny decision file for people who want to start building.
+
+$1 honor-system. Immediate download.
 
 {PAYMENT_OR_LANDING_PAGE_URL}
 

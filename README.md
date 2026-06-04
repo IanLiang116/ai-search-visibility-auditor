@@ -4,9 +4,9 @@ A tiny static landing page built to test one goal: make a first $1 sale.
 
 ## Product
 
-The offer is a $1 digital idea pack for solo builders who are stuck choosing what to build.
+The offer is an honor-system $1 digital idea pack for solo builders who are stuck choosing what to build.
 
-The deliverable is `idea-pack.md`.
+The deliverable is `idea-pack.md`, linked directly from the page to reduce purchase friction.
 
 ## Payment Link
 
@@ -55,7 +55,7 @@ For Vercel:
 2. Paste it into `script.js` as `PAYMENT_URL`, or add your QR code as `payment-qr.png`.
 3. Deploy the site.
 4. Post one message from `launch-copy.md`.
-5. Send buyers the deliverable from `idea-pack.md`, or upload that file into the payment provider if it supports digital delivery.
+5. Buyers can download `idea-pack.md` immediately. The $1 payment is honor-system to maximize speed and reduce manual delivery friction.
 
 ## Local Preview
 
